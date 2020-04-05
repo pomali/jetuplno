@@ -22,13 +22,13 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-  <title>React App</title>
+  <title>jetuplno</title>
 
   <style>
     /* Always set the map height explicitly to define the size of the div
      * element that contains the map. */
     #map {
-      height: 90%;
+      height: 100%;
     }
 
     /* Optional: Makes the sample page fill the window. */
@@ -51,6 +51,7 @@
 
 
     globalThis.googleMapsLoaded = false;
+    var EventTarget = EventTarget || Element;
     globalThis.googleMapsET = new EventTarget();
 
     //https://developers.google.com/maps/documentation/javascript/heatmaplayer?hl=sk
@@ -62,7 +63,11 @@
         zoom: 12,
         disableDefaultUI: true,
         mapTypeId: 'hybrid',
-        gestureHandling: 'greedy'
+        gestureHandling: 'greedy',
+        zoomControl: true,
+        zoomControlOptions: {
+          position: google.maps.ControlPosition.LEFT_CENTER
+        },
       });
 
       globalThis.googleMapsLoaded = true;

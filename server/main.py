@@ -15,6 +15,8 @@ def create_app():
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
         "DATABASE_URL", "http://localhost:5432/"
     )
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    
 
     CORS(app, resources={r"/api/*": {"origins": "*"}})
     app.register_blueprint(jetuplno_api.blueprint, url_prefix="/api")
@@ -24,6 +26,9 @@ def create_app():
     return app
 
 
+app = create_app()
+
+
 if __name__ == "__main__":
-    app = create_app()
+
     app.run()

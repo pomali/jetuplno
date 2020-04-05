@@ -1,30 +1,60 @@
 import React from "react";
-import "./App.css";
-import useGoogleMap from './googleMap'
+import useGoogleMap from "./googleMap";
+import cloudOutlineImg from "./img2.svg";
 
-function Button({ style, text }) {
+const colorPurple = "rgb(43,25,138)";
+const colorWhite = "rgb(255,255,255)";
+
+function Button({ style, text, onClick }) {
   return (
-    <button style={{ height: "100%", width: "50%", border: 0, ...style }}>
+    <button
+      style={{
+        height: "3em",
+        width: "12em",
+        border: 0,
+        borderRadius: "3em",
+        ...style,
+      }}
+      onClick={onClick}
+    >
+      <img
+        src={cloudOutlineImg}
+        style={{
+          width: "2em",
+          marginRight: "5px",
+        }}
+        alt="Cloud Outline"
+      ></img>
       {text}
     </button>
   );
 }
 
-
 function App() {
-
-  useGoogleMap();
+  const sendPosition = useGoogleMap();
 
   return (
-    <div className="App">
+    <div>
       <div
         style={{
           width: "100%",
-          height: "10vh",
+          position: "fixed",
+          bottom: "0.5em",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-evenly",
         }}
       >
-        <Button text="Plno 🌖" style={{ background: "red" }} />
-        <Button text="Prázdno 🌘" style={{ background: "green" }} />
+        <Button
+          text="Je tu prázdno"
+          style={{ background: colorWhite, color: colorPurple }}
+          onClick={() => sendPosition("empty")}
+        />
+        <Button
+          text="Je tu plno"
+          style={{ background: colorPurple, color: colorWhite }}
+          onClick={() => sendPosition("full")}
+        />
       </div>
     </div>
   );
