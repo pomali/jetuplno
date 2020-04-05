@@ -13,7 +13,7 @@ purple clouds its full at that place. If you see white clouds ☁️  place is e
 
 If you see location that full or empty give us report! Just press respective button 🤗.
 
-It sends your location **only once** every time you press button. We respect your 
+It sends your location **only when** you press button. We respect your 
 privacy and battery time, so there is nothing going on in background.
 
 
@@ -22,6 +22,10 @@ privacy and battery time, so there is nothing going on in background.
 ## Backend
 
 In `server` folder
+
+Server is backed by Flask and Postgres and PostGIS.
+PostGIS is used only for types, 
+but we expected operations on geometry in future.
 
 Setup `.env` from `.env.example`
 
@@ -32,6 +36,8 @@ python main.py
 ## Frontend
 
 In `frontend` folder
+
+It's simple React app with ugly hack around Google Maps Javascript API.
 
 Setup `.env` from `.env.example`
 
@@ -44,4 +50,6 @@ npm start
 
 
 Code looks like shit, but it was created in less than 30 hours of elapsed 
-real time and I still got to sleep.
+real time and I still got to sleep 🙃 .
+
+We ended up in top 7 from 31 projects in Hack the Crisis Slovakia 🙌 .

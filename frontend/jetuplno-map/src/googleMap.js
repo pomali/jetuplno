@@ -18,8 +18,11 @@ https://developers.google.com/maps/documentation/javascript/examples/control-pos
 // const currentPositionIcon =
 //   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAMAAABhq6zVAAAAQlBMVEVMaXFCiv9Civ9Civ9Civ9Civ9Civ9Civ9Civ+Kt/9+r/9Pkv90qf9hnf9Civ9wpv9Ee/+Jtf9Gjf9/sP9Kj/9KXf+JdfukAAAACXRSTlMAGCD7088IcsuTBctUAAAAYUlEQVR4XlWOWQrAIBBDx302d73/VSu0UMxfQsgLAMSEzmGKcGRCkZylBHPyMJQmk44QIRWdVCuxlgQoRNLaoi4ILs/a9m6VszuGf4PSaX21eyD6oZ256/AHa/0L9RauOw+4XAWqGLX26QAAAABJRU5ErkJggg==";
 
-function randomize(f) {
-  return f + Math.random() * 0.2 - 0.1;
+function randomizeInDev(f) {
+  if (process.env.NODE_ENV === "development") {
+    return f + Math.random() * 0.2 - 0.1;
+  }
+  return f;
 }
 
 function popularityToColor(popularity) {
@@ -39,8 +42,8 @@ export const usePosition = () => {
 
   const onChange = ({ coords }) => {
     setPosition({
-      latitude: randomize(coords.latitude),
-      longitude: randomize(coords.longitude),
+      latitude: randomizeInDev(coords.latitude),
+      longitude: randomizeInDev(coords.longitude),
     });
   };
   const onError = (error) => {
@@ -142,7 +145,7 @@ function useGoogleMap() {
     }).then((response) => {
       console.log(response);
 
-      alert("Ďík za info!")
+      alert("Ďík za info!");
     });
   }
 
