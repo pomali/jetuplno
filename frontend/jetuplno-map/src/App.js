@@ -1,21 +1,22 @@
 import React from "react";
 import "./App.css";
-// import SimpleMap from './SimpleMap';
-// import MyMapComponent from "./Map3";
-// import LLMap from "./LeafletMap";
+import useGoogleMap from './googleMap'
 
 function Button({ style, text }) {
   return (
-    <button style={{ height: "100%", width: "50%", border: 0, ...style }}>{text}</button>
+    <button style={{ height: "100%", width: "50%", border: 0, ...style }}>
+      {text}
+    </button>
   );
 }
 
+
 function App() {
+
+  useGoogleMap();
+
   return (
     <div className="App">
-      {/* <LLMap /> */}
-      {/* <SimpleMap/> */}
-      {/* <MyMapComponent /> */}
       <div
         style={{
           width: "100%",

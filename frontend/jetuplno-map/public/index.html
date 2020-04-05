@@ -30,12 +30,15 @@
     #map {
       height: 90%;
     }
+
     /* Optional: Makes the sample page fill the window. */
-    html, body {
+    html,
+    body {
       height: 100%;
       margin: 0;
       padding: 0;
     }
+
   </style>
 </head>
 
@@ -44,81 +47,28 @@
 
   <div id="map"></div>
   <script>
-    var map, infoWindow;
+    var map;
 
-    var icon = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAMAAABhq6zVAAAAQlBMVEVMaXFCiv9Civ9Civ9Civ9Civ9Civ9Civ9Civ+Kt/9+r/9Pkv90qf9hnf9Civ9wpv9Ee/+Jtf9Gjf9/sP9Kj/9KXf+JdfukAAAACXRSTlMAGCD7088IcsuTBctUAAAAYUlEQVR4XlWOWQrAIBBDx302d73/VSu0UMxfQsgLAMSEzmGKcGRCkZylBHPyMJQmk44QIRWdVCuxlgQoRNLaoi4ILs/a9m6VszuGf4PSaX21eyD6oZ256/AHa/0L9RauOw+4XAWqGLX26QAAAABJRU5ErkJggg==';
+
+    globalThis.googleMapsLoaded = false;
+    globalThis.googleMapsET = new EventTarget();
 
     //https://developers.google.com/maps/documentation/javascript/heatmaplayer?hl=sk
 
     function initMap() {
-      
 
       map = new google.maps.Map(document.getElementById('map'), {
-        // center: { lat: -34.397, lng: 150.644 },
-        zoom: 16,
+        center: { lat: 48.145494, lng: 17.1208062 },
+        zoom: 12,
         disableDefaultUI: true,
-        mapTypeId: 'satellite',
+        mapTypeId: 'hybrid',
         gestureHandling: 'greedy'
       });
-      infoWindow = new google.maps.InfoWindow;
 
-
-      // Try HTML5 geolocation.
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(function (position) {
-          var pos = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          };
-
-          var marker = new google.maps.Marker({
-            map: map,
-            position: pos,
-            icon: icon
-          });
-
-          map.setCenter(pos );
-          marker.setPosition(pos)
-          google.maps.event.trigger(map,"resize")
-        }, function () {
-          handleLocationError(true, infoWindow, map.getCenter());
-        });
-      } else {
-        // Browser doesn't support Geolocation
-        handleLocationError(false, infoWindow, map.getCenter());
-      }
-
-      var heatmap = new google.maps.visualization.HeatmapLayer({
-        data: [
-        { location: new google.maps.LatLng(47.782, 17.447), weight: 0.5 },
-        new google.maps.LatLng(48.782, 17.445),
-        { location: new google.maps.LatLng(48.146, 17.062), weight: 100, },
-        { location: new google.maps.LatLng(47.782, 17.441), weight: 3 },
-        { location: new google.maps.LatLng(47.782, 17.439), weight: 2 },
-        new google.maps.LatLng(47.782, 17.448),
-        { location: new google.maps.LatLng(47.146, 17.435), weight: 0.5 },
-
-        { location: new google.maps.LatLng(48.146, 17.447), weight: 3 },
-        { location: new google.maps.LatLng(48.146, 17.445), weight: 2 },
-        new google.maps.LatLng(48.146, 17.443),
-        { location: new google.maps.LatLng(48.146, 17.441), weight: 0.5 },
-        new google.maps.LatLng(48.146, 17.439),
-        { location: new google.maps.LatLng(48.146, 17.448), weight: 2 },
-        { location: new google.maps.LatLng(48.146, 17.435), weight: 3 }
-      ],
-      // dissipating: true,
-      // radius: 30
-      });
-      heatmap.setMap(map);
+      globalThis.googleMapsLoaded = true;
+      globalThis.googleMapsET.dispatchEvent(new Event("ready"));
     }
 
-    function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-      infoWindow.setPosition(pos);
-      infoWindow.setContent(browserHasGeolocation ?
-        'Error: The Geolocation service failed.' :
-        'Error: Your browser doesn\'t support geolocation.');
-      infoWindow.open(map);
-    }
   </script>
   <script
     src="https://maps.googleapis.com/maps/api/js?key=%REACT_APP_GOOGLE_MAPS_API_KEY%&callback=initMap&libraries=visualization"
