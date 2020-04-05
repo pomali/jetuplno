@@ -1,7 +1,7 @@
 import re
 from flask import Blueprint, request
 from flask_restful import Api, Resource
-from main import db
+from database import db
 from api.models import HeatmapInput, InterestingPoint
 import random
 

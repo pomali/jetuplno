@@ -33,6 +33,10 @@ Setup `.env` from `.env.example`
 python main.py
 ```
 
+Deployment `gcloud app deploy` (create `env_vars.yaml`)
+
+`DATABASE_URL` is in `postgresql+pg8000://<username>:<password>@/<database>?unix_sock=/cloudsql/<INSTANCE CONNECTION STRING>/.s.PGSQL.5432`
+
 ## Frontend
 
 In `frontend` folder
@@ -44,6 +48,8 @@ Setup `.env` from `.env.example`
 ```
 npm start
 ```
+
+Deployment `npm run build && cp -r build/ ../../server/static/` and deploy backend
 
 
 ---

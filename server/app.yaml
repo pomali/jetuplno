@@ -13,20 +13,22 @@ includes:
 #     static_files: static/\1
 #     upload: static/.*
 
-beta_settings:
-  cloud_sql_instances: jetuplno:europe-west3:postgres=tcp:5432
+# beta_settings:
+#   cloud_sql_instances: jetuplno:europe-west3:postgres=tcp:5432
+
+default_expiration: "1h"
 
 handlers:
-  - url: /app
+  - url: /api/.*
+    secure: always
+    script: auto
+
+
+  - url: /
     static_files: static/index.html
     upload: static/index.html
 
-  - url: /app/(.*)
-    # static_dir: static
+  - url: /(.*)
     static_files: static/\1
     upload: static/.*
     secure: always
-    
-  - url: /
-    secure: always
-    script: auto
