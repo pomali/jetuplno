@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { colorPurple } from "./colors";
-import { Github, Twitter } from "@icons-pack/react-simple-icons";
+// import { Github, Twitter } from "@icons-pack/react-simple-icons";
+import  Github  from "@icons-pack/react-simple-icons/lib/Github";
+import  Twitter  from "@icons-pack/react-simple-icons/lib/Twitter";
 
 const wrapperStyle = {
   position: "fixed",

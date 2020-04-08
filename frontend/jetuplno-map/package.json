@@ -17,7 +17,8 @@
     "react-google-maps": "^9.4.5",
     "react-leaflet": "^2.6.3",
     "react-scripts": "3.4.1",
-    "simple-icons": "^2.8.0"
+    "simple-icons": "^2.8.0",
+    "source-map-explorer": "^2.4.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -25,7 +26,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "cp2server": "cp -r build/ ../../server/static/",
-    "build-favicon": "npx pwa-asset-generator src/img/img3.svg public/favicon/ --path %PUBLIC_URL% --background \"rgb(43,25,138)\" --index ./public/index.html --manifest ./public/manifest.json"
+    "build-favicon": "npx pwa-asset-generator src/img/img3.svg public/favicon/ --path %PUBLIC_URL% --background \"rgb(43,25,138)\" --index ./public/index.html --manifest ./public/manifest.json",
+    "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "eslintConfig": {
     "extends": "react-app"
