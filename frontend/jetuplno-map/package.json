@@ -25,7 +25,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "cp2server": "cp -r build/ ../../server/static/",
-    "build-favicon": "npx pwa-asset-generator src/img/img1.svg public/favicon/ --path %PUBLIC_URL% --background \"rgb(255,255,255)\" --index ./public/index.html --manifest ./public/manifest.json"
+    "build-favicon": "npx pwa-asset-generator src/img/img3.svg public/favicon/ --path %PUBLIC_URL% --background \"rgb(43,25,138)\" --index ./public/index.html --manifest ./public/manifest.json"
   },
   "eslintConfig": {
     "extends": "react-app"

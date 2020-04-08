@@ -76,6 +76,7 @@ function Content({ isOpen }) {
             Stanislav Párnický{" "}
             <a
               href="https://twitter.com/_pomali?ref_src=jetuplno"
+              // eslint-disable-next-line react/jsx-no-target-blank
               target="_blank"
               rel="noopener"
             >
