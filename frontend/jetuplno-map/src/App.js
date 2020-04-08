@@ -1,21 +1,25 @@
 import React from "react";
 import useGoogleMap from "./googleMap";
-import cloudOutlineImg from "./img2.svg";
-
-const colorPurple = "rgb(43,25,138)";
-const colorWhite = "rgb(255,255,255)";
+import cloudOutlineImg from "./img/img2.svg";
+import More from "./More";
+import { motion } from "framer-motion";
+import { colorPurple, colorWhite } from "./colors";
 
 function Button({ style, text, onClick }) {
   return (
-    <button
+    <motion.button
       style={{
-        height: "3em",
+        height: "3.5em",
         width: "12em",
         border: 0,
         borderRadius: "3em",
+        margin: "0.5em 1em",
+        fontWeight: 500,
         ...style,
       }}
       onClick={onClick}
+      whileHover={{ scale: 1.1 }}
+      whileTap={{ scale: 0.9 }}
     >
       <img
         src={cloudOutlineImg}
@@ -26,7 +30,7 @@ function Button({ style, text, onClick }) {
         alt="Cloud Outline"
       ></img>
       {text}
-    </button>
+    </motion.button>
   );
 }
 
@@ -35,14 +39,16 @@ function App() {
 
   return (
     <div>
+      <More />
       <div
         style={{
           width: "100%",
           position: "fixed",
-          bottom: "0.5em",
+          bottom: 0,
           display: "flex",
           alignItems: "center",
-          justifyContent: "space-evenly",
+          justifyContent: "center",
+          flexWrap: "wrap",
         }}
       >
         <Button

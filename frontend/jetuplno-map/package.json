@@ -4,9 +4,11 @@
   "private": true,
   "homepage": "https://jetuplno.appspot.com/",
   "dependencies": {
+    "@icons-pack/react-simple-icons": "^2.6.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "framer-motion": "^1.10.3",
     "google-map-react": "^1.1.7",
     "google-maps-react": "^2.0.2",
     "leaflet": "^1.6.0",
@@ -14,13 +16,16 @@
     "react-dom": "^16.13.1",
     "react-google-maps": "^9.4.5",
     "react-leaflet": "^2.6.3",
-    "react-scripts": "3.4.1"
+    "react-scripts": "3.4.1",
+    "simple-icons": "^2.8.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cp2server": "cp -r build/ ../../server/static/",
+    "build-favicon": "npx pwa-asset-generator src/img/img1.svg public/favicon/ --path %PUBLIC_URL% --background \"rgb(255,255,255)\" --index ./public/index.html --manifest ./public/manifest.json"
   },
   "eslintConfig": {
     "extends": "react-app"

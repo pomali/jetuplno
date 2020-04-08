@@ -1,22 +1,16 @@
 import { useLayoutEffect, useState, useEffect, useRef } from "react";
-import img1 from "./img1.svg";
-// import img2 from "./img2.svg";
-// import heartIconPath from "./img3.svg";
 import "./icons.css";
-import currentPositionIcon from "./map_pin_whole.png";
-
-const img2 =
-  "M33.9978 13.9422V14.0952C33.919 16.8283 31.7206 18.9941 29.0511 19C29.0508 19 29.0505 19 29.0502 19L6.62156 19C3.53178 19 1 16.4499 1 13.2689C1 10.0878 3.53178 7.53778 6.62156 7.53778C6.96056 7.53778 7.29418 7.57041 7.62343 7.63045L8.98901 7.87944L8.79277 6.50529C8.7686 6.33605 8.75578 6.1633 8.75578 5.98889C8.75578 3.96104 10.3678 2.34556 12.3233 2.34556C13.4631 2.34556 14.4828 2.89291 15.1405 3.75608L15.9283 4.78995L16.7257 3.76345C18.0368 2.07556 20.0573 1 22.3223 1C26.1862 1 29.355 4.13933 29.4525 8.08249L29.4714 8.84553L30.2124 9.02859C32.3749 9.56284 33.9978 11.5526 33.9978 13.9422Z";
-const heartIconPath =
-  "M14 25.4545L11.97 23.6235C4.76 17.1454 0 12.8729 0 7.62943C0 3.35695 3.388 0 7.7 0C10.136 0 12.474 1.12361 14 2.89918C15.526 1.12361 17.864 0 20.3 0C24.612 0 28 3.35695 28 7.62943C28 12.8729 23.24 17.1454 16.03 23.6374L14 25.4545Z";
-/*
-
-https://developers.google.com/maps/documentation/javascript/examples/control-positioning
-
-*/
-
-// const currentPositionIcon =
-//   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAAMCAMAAABhq6zVAAAAQlBMVEVMaXFCiv9Civ9Civ9Civ9Civ9Civ9Civ9Civ+Kt/9+r/9Pkv90qf9hnf9Civ9wpv9Ee/+Jtf9Gjf9/sP9Kj/9KXf+JdfukAAAACXRSTlMAGCD7088IcsuTBctUAAAAYUlEQVR4XlWOWQrAIBBDx302d73/VSu0UMxfQsgLAMSEzmGKcGRCkZylBHPyMJQmk44QIRWdVCuxlgQoRNLaoi4ILs/a9m6VszuGf4PSaX21eyD6oZ256/AHa/0L9RauOw+4XAWqGLX26QAAAABJRU5ErkJggg==";
+import currentPositionIcon from "./img/map_pin_whole.png";
+import {
+  colorPurple,
+  colorPurpleTransparent,
+  colorWhite,
+  colorWhiteTransparent,
+  colorHeart1,
+  colorHeart2,
+  colorHeart3,
+} from "./colors";
+import { heartIconPath } from "./img/images";
 
 function randomizeInDev(f) {
   if (process.env.NODE_ENV === "development") {
@@ -28,11 +22,11 @@ function randomizeInDev(f) {
 function popularityToColor(popularity) {
   switch (popularity) {
     case 1:
-      return "#FF0303";
+      return colorHeart1;
     case 2:
-      return "#FF8D8D";
+      return colorHeart2;
     default:
-      return "#FED5D5";
+      return colorHeart3;
   }
 }
 
@@ -170,7 +164,7 @@ function useGoogleMap() {
                 };
               }),
             radius: 30,
-            gradient: ["rgba(255,255,255,0)", "rgb(255,255,255)"], //  "rgb(43,25,138)"
+            gradient: [colorWhiteTransparent, colorWhite],
           });
 
           if (heatmapFullRef.current) {
@@ -186,7 +180,8 @@ function useGoogleMap() {
                 };
               }),
             radius: 30,
-            gradient: ["rgba(43,25,138, 0)", "rgb(43,25,138)"],
+            maxIntensity: 1,
+            gradient: [colorPurpleTransparent, colorPurple],
           });
 
           heatmapFull.setMap(map);
@@ -208,7 +203,7 @@ function useGoogleMap() {
             markersRef.current.forEach((point) => point.setMap(null));
           }
           markersRef.current = poiData.map((point) => {
-            return new google.maps.Marker({
+            const marker = new google.maps.Marker({
               position: new google.maps.LatLng(point.lat, point.long),
               map: map,
               icon: {
@@ -219,8 +214,16 @@ function useGoogleMap() {
                 strokeWeight: 0,
                 scale: 1,
               },
+              // label: point.name,
+              title: point.name,
               draggable: false,
             });
+            const infoWindow = new google.maps.InfoWindow({
+              content: point.name
+            });
+            marker.addListener("click", () => infoWindow.open(map, marker))
+
+            return marker
           });
         })
         .catch((reason) => {
