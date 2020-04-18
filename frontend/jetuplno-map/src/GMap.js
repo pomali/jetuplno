@@ -245,6 +245,12 @@ function GMap() {
     setMessages((m) => [...m, msg]);
   };
 
+  useEffect(() => {
+    if (position.error) {
+      addMessage({ message: position.error });
+    }
+  }, [position]);
+
   // // useEffect(() => {
   //   const x = setInterval(() => {
   //     // setCenterPosition((x) => ({ lat: x.lat + 1, lng: x.lng + 1 }));
