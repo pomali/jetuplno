@@ -34,33 +34,6 @@
 
   </style>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/favicon/apple-icon-180.png">
 <link rel="apple-touch-icon" sizes="167x167" href="%PUBLIC_URL%/favicon/apple-icon-167.png">
 <link rel="apple-touch-icon" sizes="152x152" href="%PUBLIC_URL%/favicon/apple-icon-152.png">
@@ -93,36 +66,6 @@
 
 <body>
   <noscript>You need to enable JavaScript to run this app.</noscript>
-
-  <div id="map"></div>
-  <script>
-    var map;
-
-
-    globalThis.googleMapsLoaded = false;
-    var EventTarget = EventTarget || Element;
-    globalThis.googleMapsET = new EventTarget();
-
-    function initMap() {
-
-      map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: 48.145494, lng: 17.1208062 },
-        zoom: 12,
-        disableDefaultUI: true,
-        mapTypeId: 'hybrid',
-        gestureHandling: 'greedy',
-        // zoomControl: true,
-        // zoomControlOptions: {
-        //   position: google.maps.ControlPosition.LEFT_CENTER
-        // },
-      });
-
-      globalThis.googleMapsLoaded = true;
-      globalThis.googleMapsET.dispatchEvent(new Event("ready"));
-    }
-
-  </script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=%REACT_APP_GOOGLE_MAPS_API_KEY%&callback=initMap&libraries=visualization" async defer></script>
   <div id="root"></div>
 
 

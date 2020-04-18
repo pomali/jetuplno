@@ -30,6 +30,7 @@ const btnStyle = {
   borderColor: colorPurple,
   fontWeight: "bolder",
   position: "absolute",
+  fontStyle: "italic"
 };
 
 const variants = {
@@ -48,7 +49,6 @@ const variants = {
 };
 
 function Content({ isOpen }) {
-  console.log(isOpen);
   return (
     <motion.div
       initial="closed"
@@ -149,7 +149,7 @@ export default function More(props) {
             setIsOpen((x) => !x);
           }}
         >
-          {isOpen ? "X" : "?"}
+          {isOpen ? "X" : "i"}
         </motion.button>
         <Content isOpen={isOpen} />
       </div>

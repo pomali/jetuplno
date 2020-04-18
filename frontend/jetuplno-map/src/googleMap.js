@@ -1,4 +1,5 @@
-import { useLayoutEffect, useState, useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
+import { usePosition } from "./position";
 import "./icons.css";
 import currentPositionIcon from "./img/map_pin_whole.png";
 import {
@@ -6,102 +7,12 @@ import {
   colorPurpleTransparent,
   colorWhite,
   colorWhiteTransparent,
-  colorHeart1,
-  colorHeart2,
-  colorHeart3,
+  popularityToColor,
 } from "./colors";
 import { heartIconPath } from "./img/images";
+import { fetchHeatmap, fetchPois } from "./server";
 
-function randomizeInDev(f) {
-  if (process.env.NODE_ENV === "development") {
-    return f + Math.random() * 0.2 - 0.1;
-  }
-  return f;
-}
 
-function popularityToColor(popularity) {
-  switch (popularity) {
-    case 1:
-      return colorHeart1;
-    case 2:
-      return colorHeart2;
-    default:
-      return colorHeart3;
-  }
-}
-
-export const usePosition = () => {
-  const [position, setPosition] = useState(null);
-  const [error, setError] = useState(null);
-
-  const onChange = ({ coords }) => {
-    setPosition({
-      latitude: randomizeInDev(coords.latitude),
-      longitude: randomizeInDev(coords.longitude),
-    });
-  };
-  const onError = (error) => {
-    setError(error.message);
-  };
-  useEffect(() => {
-    const geo = navigator.geolocation;
-    if (!geo) {
-      setError("Geolocation is not supported");
-      return;
-    }
-    const watcher = geo.watchPosition(onChange, onError);
-    return () => geo.clearWatch(watcher);
-  }, []);
-  if (!position) {
-    return { error: "Not Ready" };
-  }
-  return { ...position, error };
-};
-
-function fetchHeatmap(position) {
-  // if (position.error) {
-  //   console.log(position.error);
-  //   return Promise.reject("position");
-  // }
-  // const params = new URLSearchParams();
-  // params.append("lat", position.latitude);
-  // params.append("long", position.longitude);
-  return fetch(
-    process.env.REACT_APP_SERVER_URL + "/heatmap-data" // "?" + params.toString()
-  )
-    .then((x) => {
-      console.log(x);
-      return x;
-    })
-    .then(async (response) => {
-      if (response.status !== 200) {
-        // TODO
-        console.error("nieco sa pokazilo");
-        throw Error("network request failed");
-      }
-      const json = response.json();
-      json.then(console.log);
-      return (await json).heatmap;
-    });
-}
-
-function fetchPois() {
-  return fetch(process.env.REACT_APP_SERVER_URL + "/pois")
-    .then((x) => {
-      console.log(x);
-      return x;
-    })
-    .then(async (response) => {
-      if (response.status !== 200) {
-        // TODO
-        console.error("nieco sa pokazilo");
-        throw Error("network request failed");
-      }
-      const json = response.json();
-      json.then(console.log);
-      return (await json).pois;
-    });
-}
 
 /*  global google map globalThis */
 function useGoogleMap() {
@@ -219,11 +130,11 @@ function useGoogleMap() {
               draggable: false,
             });
             const infoWindow = new google.maps.InfoWindow({
-              content: point.name
+              content: point.name,
             });
-            marker.addListener("click", () => infoWindow.open(map, marker))
+            marker.addListener("click", () => infoWindow.open(map, marker));
 
-            return marker
+            return marker;
           });
         })
         .catch((reason) => {

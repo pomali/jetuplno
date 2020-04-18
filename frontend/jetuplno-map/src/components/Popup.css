@@ -1,0 +1,26 @@
+.popup-overlay {
+  position: fixed;
+
+  width: 100%;
+  height: 100%;
+  background: rgba(240, 240, 240, 0.7);
+
+  left: 0px;
+  top: 0px;
+  z-index: 100;
+}
+
+.popup-box {
+  text-align: center;
+  margin: 8em auto;
+  padding: 4em;
+  background: #fff;
+  border-radius: 5px;
+  width: 50%;
+  position: relative;
+  transition: all 5s ease-in-out;
+}
+
+.popup-content {
+  margin: 1em;
+}
