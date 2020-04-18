@@ -4,7 +4,13 @@ import { usePosition } from "./position";
 import { motion } from "framer-motion";
 
 import { log as originalLog } from "./log";
-import { colorPurple, colorWhite, popularityToColor } from "./colors";
+import {
+  colorPurple,
+  colorWhite,
+  popularityToColor,
+  cloudFullWhiteStyle,
+  cloudFullPurpleStyle,
+} from "./colors";
 import { useFetchHeatmap, useFetchPois } from "./server";
 import Button from "./components/Button";
 // import { ReactComponent as CloudOutlineImg } from "./img/img2.svg";
@@ -23,8 +29,6 @@ const HEATMAP_STATUS = {
   full: 1,
 };
 
-const cloudFullWhiteStyle = { stroke: colorPurple, fill: colorWhite };
-const cloudFullPurpleStyle = { stroke: colorWhite, fill: colorPurple };
 const Cloud = ({ status, lat, lng }) => (
   <CloudFullImg
     lat={lat}

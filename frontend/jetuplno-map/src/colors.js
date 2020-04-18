@@ -8,8 +8,6 @@ export const colorHeart1 = "#FF0303";
 export const colorHeart2 = "#FF8D8D";
 export const colorHeart3 = "#FED5D5";
 
-
-
 export function popularityToColor(popularity) {
   switch (popularity) {
     case 1:
@@ -20,3 +18,6 @@ export function popularityToColor(popularity) {
       return colorHeart3;
   }
 }
+
+export const cloudFullWhiteStyle = { stroke: colorPurple, fill: colorWhite };
+export const cloudFullPurpleStyle = { stroke: colorWhite, fill: colorPurple };

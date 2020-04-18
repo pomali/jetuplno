@@ -1,0 +1,11 @@
+.legend {
+  display: flex;
+}
+
+.legend > ul {
+  list-style: none;
+}
+
+.legend > ul > li {
+  margin: 0.5em;
+}

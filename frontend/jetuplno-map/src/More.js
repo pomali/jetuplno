@@ -1,9 +1,20 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { colorPurple } from "./colors";
+import {
+  colorPurple,
+  cloudFullWhiteStyle,
+  cloudFullPurpleStyle,
+  popularityToColor,
+} from "./colors";
 // import { Github, Twitter } from "@icons-pack/react-simple-icons";
-import  Github  from "@icons-pack/react-simple-icons/lib/Github";
-import  Twitter  from "@icons-pack/react-simple-icons/lib/Twitter";
+import Github from "@icons-pack/react-simple-icons/lib/Github";
+import Twitter from "@icons-pack/react-simple-icons/lib/Twitter";
+
+import { ReactComponent as CloudFullImg } from "./img/img1.svg";
+import { ReactComponent as HeartImg } from "./img/img_heart.svg";
+import { ReactComponent as CloudOutlineImg } from "./img/img2.svg";
+
+import "./More.css";
 
 const wrapperStyle = {
   position: "fixed",
@@ -30,7 +41,7 @@ const btnStyle = {
   borderColor: colorPurple,
   fontWeight: "bolder",
   position: "absolute",
-  fontStyle: "italic"
+  fontStyle: "italic",
 };
 
 const variants = {
@@ -63,6 +74,49 @@ function Content({ isOpen }) {
           používateľov, a informuje kde nie je príliš veľa ľudí pre bezpečnenjší
           pohyb v časoch rozšíreného COVID-19.
         </p>
+
+        <h2>Legenda</h2>
+
+        <div className="legend">
+          <ul>
+            <li>
+              <CloudFullImg style={cloudFullPurpleStyle} /> Miesto kde je plno
+              ľudí
+            </li>
+            <li>
+              <CloudFullImg style={cloudFullWhiteStyle} /> Miesto kde je málo
+              ľudí
+            </li>
+          </ul>
+
+          <ul>
+            <li>
+              <HeartImg
+                style={{
+                  fill: popularityToColor(3),
+                }}
+              />{" "}
+              Veľmi známe miesto
+            </li>
+            <li>
+              <HeartImg
+                style={{
+                  fill: popularityToColor(2),
+                }}
+              />{" "}
+              Stredne známe miesto
+            </li>
+            <li>
+              <HeartImg
+                style={{
+                  fill: popularityToColor(1),
+                }}
+              />{" "}
+              Menej známe miesto
+            </li>
+          </ul>
+        </div>
+
         <h2>O vzniku</h2>
         <p>
           <b>jetuplno</b> vzniklo počas{" "}
