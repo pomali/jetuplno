@@ -6,6 +6,7 @@ function randomizeInDev(coords) {
   return {
     latitude: coords.latitude + randomLat * 0.2 - 0.1,
     longitude: coords.longitude + randomLong * 0.2 - 0.1,
+    accuracy: coords.accuracy,
   };
 }
 
@@ -22,6 +23,7 @@ export const usePosition = () => {
       setPosition({
         latitude: coords.latitude,
         longitude: coords.longitude,
+        accuracy: coords.accurac,
       });
     }
   };
@@ -41,7 +43,11 @@ export const usePosition = () => {
   useEffect(() => {
     const geo = navigator.geolocation;
     if (!geo) {
-      setPosition((pos) => ({ ...pos, error: "Toto zariadenie nepodporuje geolokáciu. Ak si na smarfóne skús použiť novší internetový prehliadač." }));
+      setPosition((pos) => ({
+        ...pos,
+        error:
+          "Toto zariadenie nepodporuje geolokáciu. Ak si na smarfóne skús použiť novší internetový prehliadač.",
+      }));
       return;
     }
 
@@ -57,7 +63,8 @@ export const usePosition = () => {
           x = "Nastal problém so získavaním tvojej polohy 🕵️‍♀️";
           break;
         case error.TIMEOUT:
-          x = "Nestihol si nám dať prístup ku polohe. Nabudúce budeš rýchlejší 😉";
+          x =
+            "Nestihol si nám dať prístup ku polohe. Nabudúce budeš rýchlejší 😉";
           break;
         case error.UNKNOWN_ERROR:
         default:

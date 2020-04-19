@@ -27,7 +27,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "cp2server": "cp -r build/ ../../server/static/",
-    "build-favicon": "npx pwa-asset-generator src/img/img_heart.svg public/favicon/ --path %PUBLIC_URL% --background \"rgb(43,25,138)\" --index ./public/index.html --manifest ./public/manifest.json",
+    "build-favicon": "npx pwa-asset-generator src/img/logo-jetuplno-optimized.svg public/favicon/ --opaque false --favicon --path %PUBLIC_URL% --index ./public/index.html --manifest ./public/manifest.json",
     "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "eslintConfig": {

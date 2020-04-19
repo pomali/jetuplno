@@ -82,9 +82,12 @@ function sendPosition(position, status) {
   }).then(async (response) => {
     log.info({ response });
     if (response.ok) {
-      return { status: "ok", text: "Ďík za info!" };
+      return {
+        status: "ok",
+        text: "Ďakujeme! 😊 Touto informáciou pomáhaš ostatným 👍",
+      };
     } else {
-      return { status: "not ok", text: await response.text() };
+      return { status: "error", text: await response.text() };
     }
   });
 }

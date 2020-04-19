@@ -14,7 +14,6 @@ function Popup(props) {
   return (
     <motion.div
       className="popup-overlay"
-      onClick={handleClose}
       variants={{
         open: { opacity: 1, display: "block" },
         closed: {
@@ -30,7 +29,10 @@ function Popup(props) {
       {props.messages.length > 0 ? (
         <div className="popup-box">
           <div className="popup-content">{props.messages[0].message}</div>
-          <Button style={{ background: colorPurple, color: colorWhite }}>
+          <Button
+            style={{ background: colorPurple, color: colorWhite }}
+            onClick={handleClose}
+          >
             OK
           </Button>
         </div>
