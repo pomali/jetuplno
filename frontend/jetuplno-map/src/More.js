@@ -12,7 +12,7 @@ import Twitter from "@icons-pack/react-simple-icons/lib/Twitter";
 
 import { ReactComponent as CloudFullImg } from "./img/img1.svg";
 import { ReactComponent as HeartImg } from "./img/img_heart.svg";
-import { ReactComponent as CloudOutlineImg } from "./img/img2.svg";
+import currentPositionIcon from "./img/map_pin_whole.png";
 
 import "./More.css";
 
@@ -86,6 +86,19 @@ function Content({ isOpen }) {
             <li>
               <CloudFullImg style={cloudFullWhiteStyle} /> Miesto kde je málo
               ľudí
+            </li>
+            <li>
+              <img
+                style={{
+                  height: "1.5em",
+                  width: "auto",
+                }}
+                src={currentPositionIcon}
+                width={31}
+                height={44}
+                alt="current position"
+              />{" "}
+              Tu sa nachádzaš
             </li>
           </ul>
 

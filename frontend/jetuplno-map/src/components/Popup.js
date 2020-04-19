@@ -31,7 +31,7 @@ function Popup(props) {
         <div className="popup-box">
           <div className="popup-content">{props.messages[0].message}</div>
           <Button style={{ background: colorPurple, color: colorWhite }}>
-            Close
+            OK
           </Button>
         </div>
       ) : null}

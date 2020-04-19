@@ -10,7 +10,7 @@ export default function Button({ style, children, onClick }) {
         width: "12em",
         border: 0,
         borderRadius: "3em",
-        margin: "0.5em",
+        margin: "0.5em 0.25rem",
         fontSize: "1rem",
         fontWeight: 500,
         ...style,

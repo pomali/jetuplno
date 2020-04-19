@@ -16,7 +16,6 @@ export const usePosition = () => {
   });
 
   const onChange = ({ coords }) => {
-    console.log(coords);
     if (process.env.NODE_ENV === "development") {
       setPosition(randomizeInDev(coords));
     } else {
@@ -27,39 +26,52 @@ export const usePosition = () => {
     }
   };
 
+  // useEffect(() => {
+  //   const id = setInterval(() => {
+  //     setPosition((x) => ({
+  //       latitude: x.latitude + 0.001,
+  //       longitude: x.longitude + 0.001,
+  //     }));
+  //   }, 3000);
+  //   return () => {
+  //     clearInterval(id);
+  //   };
+  // }, []);
+
   useEffect(() => {
     const geo = navigator.geolocation;
     if (!geo) {
-      setPosition((pos) => ({ ...pos, error: "Geolocation is not supported" }));
+      setPosition((pos) => ({ ...pos, error: "Toto zariadenie nepodporuje geolokáciu. Ak si na smarfóne skús použiť novší internetový prehliadač." }));
       return;
     }
 
     const watcher = geo.watchPosition(onChange, (error) => {
-      let x = "";
       console.log(error);
+      let x = "";
       switch (error.code) {
         case error.PERMISSION_DENIED:
-          x = "User denied the request for Geolocation.";
+          x =
+            "Nedal si nám povolenie na prístup k tvojej polohe 😞 Pokračujeme v obmedzenom režime 💪, ale ak chceš odosielať situáciu na mieste kde sa nachádzaš, povoľ nám prístup ku geolokácii 🤓";
           break;
         case error.POSITION_UNAVAILABLE:
-          x = "Location information is unavailable.";
+          x = "Nastal problém so získavaním tvojej polohy 🕵️‍♀️";
           break;
         case error.TIMEOUT:
-          x = "The request to get user location timed out.";
+          x = "Nestihol si nám dať prístup ku polohe. Nabudúce budeš rýchlejší 😉";
           break;
         case error.UNKNOWN_ERROR:
         default:
-          x = "An unknown error occurred.";
+          x = "An unknown error occurred. ⁉️";
           break;
       }
-      setPosition((pos) => ({ ...pos, error: `${x} ${error.message}` }));
+      setPosition((pos) => ({
+        ...pos,
+        error: `${x} (${error.message})`,
+        errorCode: error.code,
+      }));
     });
     return () => geo.clearWatch(watcher);
   }, []);
-
-  if (!position) {
-    setPosition({ error: "Not Ready" });
-  }
 
   return position;
 };

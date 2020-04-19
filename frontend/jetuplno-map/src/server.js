@@ -22,7 +22,6 @@ export function useFetchHeatmap(_position) {
 
 export function fetchHeatmap(position) {
   // if (position.error) {
-  //   console.log(position.error);
   //   return Promise.reject("position");
   // }
   // const params = new URLSearchParams();
@@ -54,7 +53,7 @@ export function useFetchPois(position) {
     error: null,
   });
   useLayoutEffect(() => {
-    fetchPois(position).then((pois) =>
+    fetchPois().then((pois) =>
       setFetchState({ state: "ready", pois, error: null })
     );
   }, []);
