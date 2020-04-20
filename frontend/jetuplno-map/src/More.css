@@ -1,12 +1,11 @@
 .legend {
   display: flex;
+  flex-wrap: wrap;
 }
 
-.legend > ul {
-  list-style: none;
-  padding: 0;
-}
-
-.legend > ul > li {
+.legend table {
   margin: 0.5em;
+}
+.legend td:first-of-type {
+  text-align: center;
 }

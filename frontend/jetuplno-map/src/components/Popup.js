@@ -5,7 +5,13 @@ import "./Popup.css";
 import { colorPurple, colorWhite } from "../colors";
 
 function Popup(props) {
+  const currentMessage = props.messages.length > 0 ? props.messages[0] : null;
+
   const handleClose = () => {
+    if (currentMessage.onClose) {
+      currentMessage.onClose();
+    }
+
     if (props.onCloseMessage) {
       props.onCloseMessage();
     }
@@ -24,11 +30,11 @@ function Popup(props) {
         },
       }}
       style={{ opacity: 0, display: "none" }}
-      animate={props.messages.length > 0 ? "open" : "closed"}
+      animate={currentMessage ? "open" : "closed"}
     >
-      {props.messages.length > 0 ? (
+      {currentMessage ? (
         <div className="popup-box">
-          <div className="popup-content">{props.messages[0].message}</div>
+          <div className="popup-content">{currentMessage.message}</div>
           <Button
             style={{ background: colorPurple, color: colorWhite }}
             onClick={handleClose}

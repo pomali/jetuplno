@@ -12,15 +12,20 @@
 
 .popup-box {
   text-align: center;
-  margin: 8em auto;
-  padding: 4em;
+  margin: min(8em, 10vh) auto;
+  /* padding: 4em; */
   background: #fff;
   border-radius: 5px;
-  width: 50%;
   position: relative;
+  overflow: auto;
+  max-width: 20em;
+  max-height: calc(90vh - min(4em, 20vh));
+
   transition: all 5s ease-in-out;
 }
 
 .popup-content {
   margin: 1em;
 }
+
+

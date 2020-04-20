@@ -10,6 +10,9 @@ import Popup from "./components/Popup";
 import MapControls from "./components/MapControls";
 import BottomButtons from "./components/BottomButtons";
 import { Heart, CurrentPosMarker, Cloud } from "./components/Markers";
+import { ReactComponent as CloudFullImg } from "./img/img1.svg";
+
+import { cloudFullPurpleStyle, cloudFullWhiteStyle } from "./colors";
 
 // import { log as originalLog } from "./log";
 // const log = originalLog.child({ module: "GMap" });
@@ -21,6 +24,12 @@ function distanceToMouse(point, mousePosition, markerProps) {
         (point.y - mousePosition.y) * (point.y - mousePosition.y)
     );
   }
+}
+
+function isFirstVisit() {
+  return !document.cookie
+    .split(";")
+    .some((item) => item.trim().startsWith("jetuplno-splash-shown="));
 }
 
 function createMapOptions(maps) {
@@ -101,9 +110,59 @@ function useMapChanges(position) {
   ];
 }
 
+function WelcomeMessage() {
+  return (
+    <div>
+      <h1>Vitaj dobrý človek</h1>
+      <p>
+        Nájdeš u nás kde sa oplatí ísť na vychádzku lebo tam je menej ľudí a ak
+        chceš pomôcť môžeš nám dať vedieť či <b>je tu plno</b>{" "}
+        <CloudFullImg style={cloudFullPurpleStyle} /> alebo prázdno{" "}
+        <CloudFullImg style={cloudFullWhiteStyle} /> na tomto mieste
+      </p>
+      <p>
+        Prístup k tvojej <b>polohe</b>{" "}
+        <span role="img" aria-label="poloha">
+          🗺
+        </span>{" "}
+        používame keď chceš zobraziť svoju polohu{" "}
+        <span role="img" aria-label="pin">
+          📍
+        </span>{" "}
+        a ak budeš chcieť tak na oznamovanie stavu na mieste kde si{" "}
+        <span role="img" aria-label="hory">
+          🏔
+        </span>
+        .
+      </p>
+      <p>
+        Používame cookies{" "}
+        <span role="img" aria-label="cookie">
+          🍪
+        </span>
+        .
+      </p>
+      <p>
+        Viac info nájdeš po kliknutí na{" "}
+        <i
+          style={{
+            fontSize: "larger",
+            margin: "0.2em",
+            color: "rgb(43, 25, 138)",
+          }}
+        >
+          i
+        </i>{" "}
+        v ľavom hornom rohu.
+      </p>
+    </div>
+  );
+}
+
 function GMap() {
   const [messages, setMessages] = useState([]);
-  const position = usePosition();
+  const [getGpsPosition, setGetGpsPosition] = useState(!isFirstVisit());
+  const position = usePosition(getGpsPosition);
   const { heatmap } = useFetchHeatmap();
   const [temporaryHeatmap, setTemporaryHeatmap] = useState([]);
   const { pois } = useFetchPois();
@@ -124,7 +183,7 @@ function GMap() {
 
   const removeLastMessage = () => {
     setMessages((m) => {
-      m.splice(-1, 1);
+      m.splice(0, 1);
       return [...m];
     });
   };
@@ -145,6 +204,20 @@ function GMap() {
       addMessage({ message: position.error });
     }
   }, [position]);
+
+  useEffect(() => {
+    if (isFirstVisit()) {
+      const message = <WelcomeMessage />;
+      addMessage({
+        message,
+        onClose: () => {
+          setGetGpsPosition(true);
+          document.cookie =
+            "jetuplno-splash-shown=true; expires=Fri, 31 Dec 9999 23:59:59 GMT; path=/";
+        },
+      });
+    }
+  }, []);
 
   return (
     <div className="google-map-container">

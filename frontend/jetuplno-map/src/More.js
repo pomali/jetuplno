@@ -78,56 +78,72 @@ function Content({ isOpen }) {
         <h2>Legenda</h2>
 
         <div className="legend">
-          <ul>
-            <li>
-              <CloudFullImg style={cloudFullPurpleStyle} /> Miesto kde je plno
-              ľudí
-            </li>
-            <li>
-              <CloudFullImg style={cloudFullWhiteStyle} /> Miesto kde je málo
-              ľudí
-            </li>
-            <li>
-              <img
-                style={{
-                  height: "1.5em",
-                  width: "auto",
-                }}
-                src={currentPositionIcon}
-                width={31}
-                height={44}
-                alt="current position"
-              />{" "}
-              Tu sa nachádzaš
-            </li>
-          </ul>
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <CloudFullImg style={cloudFullPurpleStyle} />{" "}
+                </td>
+                <td>Miesto kde je plno ľudí</td>
+              </tr>
+              <tr>
+                <td>
+                  <CloudFullImg style={cloudFullWhiteStyle} />
+                </td>
+                <td> Miesto kde je málo ľudí</td>
+              </tr>
+              <tr>
+                <td>
+                  <img
+                    style={{
+                      height: "1.5em",
+                      width: "auto",
+                    }}
+                    src={currentPositionIcon}
+                    width={31}
+                    height={44}
+                    alt="current position"
+                  />
+                </td>
+                <td> Tu sa nachádzaš</td>
+              </tr>
+            </tbody>
+          </table>
 
-          <ul>
-            <li>
-              <HeartImg
-                style={{
-                  fill: popularityToColor(3),
-                }}
-              />{" "}
-              Veľmi známe miesto
-            </li>
-            <li>
-              <HeartImg
-                style={{
-                  fill: popularityToColor(2),
-                }}
-              />{" "}
-              Stredne známe miesto
-            </li>
-            <li>
-              <HeartImg
-                style={{
-                  fill: popularityToColor(1),
-                }}
-              />{" "}
-              Menej známe miesto
-            </li>
-          </ul>
+          <table>
+            <tbody>
+              <tr>
+                <td>
+                  <HeartImg
+                    style={{
+                      fill: popularityToColor(3),
+                    }}
+                  />
+                </td>
+                <td>Veľmi známe miesto</td>
+              </tr>
+              <tr>
+                <td>
+                  <HeartImg
+                    style={{
+                      fill: popularityToColor(2),
+                    }}
+                  />
+                </td>
+                <td>Stredne známe miesto</td>
+              </tr>
+              <tr>
+                <td>
+                  <HeartImg
+                    style={{
+                      fill: popularityToColor(1),
+                    }}
+                  />
+                </td>
+                <td>Menej známe miesto</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
         <h2>O vzniku</h2>
@@ -182,7 +198,8 @@ function Content({ isOpen }) {
           Používame cookies kvôli{" "}
           <a href="https://policies.google.com/technologies/types?hl=sk">
             Google Analytics
-          </a>
+          </a>{" "}
+          a aby sme ti stále neukazovali uvítanie.
         </p>
         <p style={{ color: "grey" }}>
           {`${process.env.REACT_APP_NAME} ${process.env.REACT_APP_VERSION}`}
