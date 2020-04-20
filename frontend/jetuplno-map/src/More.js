@@ -15,6 +15,7 @@ import { ReactComponent as HeartImg } from "./img/img_heart.svg";
 import currentPositionIcon from "./img/map_pin_whole.png";
 
 import "./More.css";
+import { getScore } from "./score";
 
 const wrapperStyle = {
   position: "fixed",
@@ -146,6 +147,8 @@ function Content({ isOpen }) {
           </table>
         </div>
 
+        <h2>Pomohol si: {getScore()}-krát</h2>
+
         <h2>O vzniku</h2>
         <p>
           <b>jetuplno</b> vzniklo počas{" "}
@@ -158,7 +161,7 @@ function Content({ isOpen }) {
         <h3>Autori</h3>
         <ul>
           <li>
-            Stanislav Párnický{" "}
+            Stanislav Párnický (dev){" "}
             <a
               href="https://twitter.com/_pomali?ref_src=jetuplno"
               // eslint-disable-next-line react/jsx-no-target-blank
@@ -174,10 +177,10 @@ function Content({ isOpen }) {
               />
             </a>
           </li>
-          <li>Mária Dzureková</li>
-          <li>Martin Žofaj</li>
-          <li>Anna Ulahelova</li>
-          <li>Damián Leporis</li>
+          <li>Mária Dzureková (PR)</li>
+          <li>Martin Žofaj (gamification)</li>
+          <li>Anna Ulahelova (UX)</li>
+          <li>Damián Leporis (data)</li>
         </ul>
 
         <p>

@@ -7,6 +7,7 @@ import { ReactComponent as CloudOutlineImg } from "../img/img2.svg";
 
 import { log as originalLog } from "../log";
 import gtag from "../gtag";
+import { addScore } from "../score";
 
 const log = originalLog.child({ module: "BottomButtons" });
 
@@ -33,6 +34,7 @@ function onSendPositionClick(
     .then((response) => {
       log.info({ response });
       addMessage({ message: response.message });
+      addScore();
     })
     .catch((reason) => {
       log.error({ reason });
