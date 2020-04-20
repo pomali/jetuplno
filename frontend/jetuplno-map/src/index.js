@@ -4,6 +4,18 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+function onWindowResizeSetVH(){
+  // We execute the same script as before
+  let vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', `${vh}px`);
+}
+onWindowResizeSetVH()
+window.addEventListener('resize', onWindowResizeSetVH);
+
+
+console.log(`${process.env.REACT_APP_NAME} ${process.env.REACT_APP_VERSION}`)
+
+
 ReactDOM.render(
   <React.StrictMode>
     <App />

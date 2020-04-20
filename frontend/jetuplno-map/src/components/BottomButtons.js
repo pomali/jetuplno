@@ -32,7 +32,7 @@ function onSendPositionClick(
   sendPosition(position, status)
     .then((response) => {
       log.info({ response });
-      addMessage({ message: response.text });
+      addMessage({ message: response.message });
     })
     .catch((reason) => {
       log.error({ reason });
@@ -84,10 +84,10 @@ function sendPosition(position, status) {
     if (response.ok) {
       return {
         status: "ok",
-        text: "Ďakujeme! 😊 Touto informáciou pomáhaš ostatným 👍",
+        message: "Ďakujeme! 😊 Touto informáciou pomáhaš ostatným 👍",
       };
     } else {
-      return { status: "error", text: await response.text() };
+      return { status: "error", message: await response.text() };
     }
   });
 }

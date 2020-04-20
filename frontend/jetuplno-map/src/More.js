@@ -184,6 +184,9 @@ function Content({ isOpen }) {
             Google Analytics
           </a>
         </p>
+        <p style={{ color: "grey" }}>
+          {`${process.env.REACT_APP_NAME} ${process.env.REACT_APP_VERSION}`}
+        </p>
       </div>
     </motion.div>
   );

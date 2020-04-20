@@ -1,8 +1,7 @@
-import { useState,  useLayoutEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 import { log as originalLog } from "./log";
 
-const log = originalLog.child({module: "server"})
-
+const log = originalLog.child({ module: "server" });
 
 export function useFetchHeatmap(_position) {
   const [fetchState, setFetchState] = useState({
@@ -10,11 +9,19 @@ export function useFetchHeatmap(_position) {
     heatmap: [],
     error: null,
   });
-  
+
   useLayoutEffect(() => {
-    fetchHeatmap().then((heatmap) =>
-      setFetchState({ state: "ready", heatmap, error: null })
-    );
+    fetchHeatmap()
+      .catch((reason) => {
+        if (reason === "network request failed") {
+          return [];
+        } else {
+          throw reason;
+        }
+      })
+      .then((heatmap) =>
+        setFetchState({ state: "ready", heatmap, error: null })
+      );
   }, []);
 
   return fetchState;
@@ -38,7 +45,8 @@ export function fetchHeatmap(position) {
       if (response.status !== 200) {
         // TODO
         log.error("nieco sa pokazilo");
-        throw Error("network request failed");
+        // throw Error("network request failed");
+        return [];
       }
       const json = response.json();
       json.then((r) => log.info(r));
@@ -63,14 +71,15 @@ export function useFetchPois(position) {
 export function fetchPois() {
   return fetch(process.env.REACT_APP_SERVER_URL + "/pois")
     .then((x) => {
-      log.info({response: x});
+      log.info({ response: x });
       return x;
     })
     .then(async (response) => {
       if (response.status !== 200) {
         // TODO
         console.error("nieco sa pokazilo");
-        throw Error("network request failed");
+        // throw Error("network request failed");
+        return [];
       }
       const json = response.json();
       json.then((r) => log.info(r));

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import GoogleMapReact from "google-map-react";
 import { usePosition } from "./position";
 
@@ -31,7 +31,10 @@ function createMapOptions(maps) {
     zoomControl: false,
     fullscreenControl: false,
     mapTypeControl: false,
-    mapTypeControlOptions: {style: maps.MapTypeControlStyle.HORIZONTAL_BAR, position: maps.ControlPosition.TOP_RIGHT}
+    mapTypeControlOptions: {
+      style: maps.MapTypeControlStyle.HORIZONTAL_BAR,
+      position: maps.ControlPosition.TOP_RIGHT,
+    },
     // styles: [{ stylers: [{ 'saturation': -100 }, { 'gamma': 0.8 }, { 'lightness': 4 }, { 'visibility': 'on' }] }]
   };
 }
@@ -105,6 +108,8 @@ function GMap() {
   const [temporaryHeatmap, setTemporaryHeatmap] = useState([]);
   const { pois } = useFetchPois();
 
+  const mapRef = useRef(null);
+
   const [
     centerPosition,
     setCenterPosition,
@@ -127,6 +132,15 @@ function GMap() {
     setMessages((m) => [...m, msg]);
   };
 
+  function handleApiLoaded(map, maps) {
+    mapRef.current = map;
+  }
+
+  function recenter() {
+    mapRef.current.panTo({ lat: position.latitude, lng: position.longitude });
+    setIsMapMoved(false);
+  }
+
   useEffect(() => {
     if (position.error) {
       addMessage({ message: position.error });
@@ -134,7 +148,7 @@ function GMap() {
   }, [position]);
 
   return (
-    <div style={{ height: "100vh", width: "100%" }}>
+    <div className="google-map-container">
       <Popup messages={messages} onCloseMessage={removeLastMessage} />
       <GoogleMapReact
         bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY }}
@@ -143,6 +157,8 @@ function GMap() {
         zoom={zoom}
         distanceToMouse={distanceToMouse}
         options={createMapOptions}
+        yesIWantToUseGoogleMapApiInternals
+        onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
       >
         <CurrentPosMarker flex {...centerPosition} />
 
@@ -178,8 +194,7 @@ function GMap() {
       <MapControls
         setZoom={setZoom}
         isMapMoved={isMapMoved}
-        setIsMapMoved={setIsMapMoved}
-        setCenterPosition={setCenterPosition}
+        recenter={recenter}
       />
 
       <BottomButtons

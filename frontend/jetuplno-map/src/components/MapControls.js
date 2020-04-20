@@ -5,8 +5,7 @@ import { motion } from "framer-motion";
 export default function MapControls({
   setZoom,
   isMapMoved,
-  setIsMapMoved,
-  setCenterPosition,
+  recenter
 }) {
   return (
     <div
@@ -47,13 +46,8 @@ export default function MapControls({
           },
         }}
         animate={isMapMoved ? "off" : "on"}
-
-        whileTap={{ scale: 0.9 }}
         onClick={() => {
-          setIsMapMoved((x) => !x);
-          // setCenterPosition((x) => {
-          //   return { ...x };
-          // });
+          recenter()
         }}
       >
         <svg
@@ -81,7 +75,7 @@ export default function MapControls({
           fontWeight: 500,
           color: colorPurple,
         }}
-        whileTap={{ scale: 0.9 }}
+        whileTap={{ color: colorWhite }}
       >
         +
       </motion.button>
@@ -101,7 +95,7 @@ export default function MapControls({
           fontWeight: 500,
           color: colorPurple,
         }}
-        whileTap={{ scale: 0.9 }}
+        whileTap={{ color: colorWhite }}
       >
         -
       </motion.button>
