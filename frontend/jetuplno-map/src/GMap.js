@@ -138,7 +138,6 @@ function GMap() {
 
   function recenter() {
     mapRef.current.panTo({ lat: position.latitude, lng: position.longitude });
-    setIsMapMoved(false);
   }
 
   useEffect(() => {
@@ -194,6 +193,7 @@ function GMap() {
       <MapControls
         setZoom={setZoom}
         isMapMoved={isMapMoved}
+        setIsMapMoved={setIsMapMoved}
         recenter={recenter}
       />
 

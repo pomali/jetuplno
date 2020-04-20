@@ -5,7 +5,8 @@ import { motion } from "framer-motion";
 export default function MapControls({
   setZoom,
   isMapMoved,
-  recenter
+  setIsMapMoved,
+  recenter,
 }) {
   return (
     <div
@@ -47,7 +48,14 @@ export default function MapControls({
         }}
         animate={isMapMoved ? "off" : "on"}
         onClick={() => {
-          recenter()
+          setIsMapMoved((currentIsMapMoved) => {
+            const newIsMapMoved = !currentIsMapMoved;
+            if (!newIsMapMoved) {
+              // If map is tracking recenter
+              recenter();
+            }
+            return newIsMapMoved;
+          });
         }}
       >
         <svg
