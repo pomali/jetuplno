@@ -232,7 +232,7 @@ function GMap() {
         yesIWantToUseGoogleMapApiInternals
         onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
       >
-        <CurrentPosMarker flex {...centerPosition} />
+        {getGpsPosition && !position.error ? <CurrentPosMarker flex {...centerPosition} /> : null}
 
         {heatmap.map((x, i) => (
           <Cloud
