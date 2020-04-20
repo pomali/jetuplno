@@ -171,7 +171,7 @@ function GMap() {
 
   const [
     centerPosition,
-    setCenterPosition,
+    ,
     zoom,
     setZoom,
     isMapMoved,

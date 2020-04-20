@@ -1,6 +1,6 @@
 export function getScore() {
   const cookieScore = document.cookie.replace(
-    /(?:(?:^|.*;\s*)jetuplno-score\s*\=\s*([^;]*).*$)|^.*$/,
+    /(?:(?:^|.*;\s*)jetuplno-score\s*=\s*([^;]*).*$)|^.*$/,
     "$1"
   );
   const score = parseInt(cookieScore);
