@@ -11,6 +11,16 @@ import { addScore } from "../score";
 
 const log = originalLog.child({ module: "BottomButtons" });
 
+const CloudImg =() => <CloudOutlineImg
+  style={{
+    marginRight: "5px",
+    height: "2em",
+    marginBottom: "0.2em"
+  }}
+  className="ib"
+/>
+
+
 function onSendPositionClick(
   position,
   status,
@@ -122,13 +132,8 @@ export default function BottomButtons({
           )
         }
       >
-        <CloudOutlineImg
-          style={{
-            marginRight: "5px",
-            height: "1em",
-          }}
-        />{" "}
-        Je tu prázdno
+        <CloudImg/>
+        <span className="ib">Je tu prázdno</span>
       </Button>
       <Button
         style={{ background: colorPurple, color: colorWhite }}
@@ -141,13 +146,8 @@ export default function BottomButtons({
           )
         }
       >
-        <CloudOutlineImg
-          style={{
-            marginRight: "5px",
-            height: "1em",
-          }}
-        />{" "}
-        Je tu plno
+        <CloudImg/>
+        <span className="ib">Je tu plno</span>
       </Button>
     </div>
   );

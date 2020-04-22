@@ -54,6 +54,30 @@ function compareFloatEq(a, b, precision) {
   return diff <= precision;
 }
 
+const dateTimeFormat = new Intl.DateTimeFormat("sk", {
+  month: "narrow",
+  day: "2-digit",
+  hour: "numeric",
+  minute: "numeric",
+});
+function formatPastTime(strTime) {
+  if (typeof strTime === "undefined" || !strTime) {
+    return "";
+  }
+  const time = new Date(strTime);
+  const f = dateTimeFormat.formatToParts(time);
+  const [
+    { value: day },
+    ,
+    { value: month },
+    ,
+    { value: hour },
+    ,
+    { value: minute },
+  ] = f;
+  return <div><div>{day}.{month}.</div><div> <b>{hour}:{minute}</b></div></div>
+}
+
 const comparePrecision = 0.001;
 function comparePositionEq(a, b) {
   // TODO: use https://en.wikipedia.org/wiki/Haversine_formula
@@ -113,28 +137,30 @@ function useMapChanges(position) {
 function WelcomeMessage() {
   return (
     <div>
-      <h1>Vitaj dobrý človek</h1>
+      <h2>Je tu plno?</h2>
       <p>
-        Nájdeš u nás kde sa oplatí ísť na vychádzku lebo tam je menej ľudí a ak
-        chceš pomôcť môžeš nám dať vedieť či <b>je tu plno</b>{" "}
-        <CloudFullImg style={cloudFullPurpleStyle} /> alebo prázdno{" "}
-        <CloudFullImg style={cloudFullWhiteStyle} /> na tomto mieste
+        Na tomto mieste vieš zistiť ako plno, či prázdno, je na mieste, kam
+        pôjdeš na prechádzku.
       </p>
+      <h3>Chceš pomôcť?</h3>
       <p>
-        Prístup k tvojej <b>polohe</b>{" "}
-        <span role="img" aria-label="poloha">
-          🗺
-        </span>{" "}
-        používame keď chceš zobraziť svoju polohu{" "}
-        <span role="img" aria-label="pin">
-          📍
-        </span>{" "}
-        a ak budeš chcieť tak na oznamovanie stavu na mieste kde si{" "}
-        <span role="img" aria-label="hory">
-          🏔
-        </span>
-        .
+        Daj vedieť či je <b>plno</b>
+        <CloudFullImg style={cloudFullPurpleStyle} /> alebo <b>prázdno</b>
+        <CloudFullImg style={cloudFullWhiteStyle} /> tam, kde sa práve
+        nachádzaš.
       </p>
+      <h3>Prístup k tvojej polohe?</h3>
+      <p>
+        <ul style={{ textAlign: "left" }}>
+          <li>len s tvojím súhlasom</li>
+          <li>aby si vedel, kde si</li>
+          <li>
+            pri zaznačení <CloudFullImg style={cloudFullPurpleStyle} /> /{" "}
+            <CloudFullImg style={cloudFullWhiteStyle} />
+          </li>
+        </ul>
+      </p>
+      <h3>Cookies?</h3>
       <p>
         Používame cookies{" "}
         <span role="img" aria-label="cookie">
@@ -142,19 +168,7 @@ function WelcomeMessage() {
         </span>
         .
       </p>
-      <p>
-        Viac info nájdeš po kliknutí na{" "}
-        <i
-          style={{
-            fontSize: "larger",
-            margin: "0.2em",
-            color: "rgb(43, 25, 138)",
-          }}
-        >
-          i
-        </i>{" "}
-        v ľavom hornom rohu.
-      </p>
+      <p>Viac info v ľavom hornom rohu.</p>
     </div>
   );
 }
@@ -232,13 +246,16 @@ function GMap() {
         yesIWantToUseGoogleMapApiInternals
         onGoogleApiLoaded={({ map, maps }) => handleApiLoaded(map, maps)}
       >
-        {getGpsPosition && !position.error ? <CurrentPosMarker flex {...centerPosition} /> : null}
+        {getGpsPosition && !position.error ? (
+          <CurrentPosMarker flex {...centerPosition} />
+        ) : null}
 
         {heatmap.map((x, i) => (
           <Cloud
             lat={x.lat}
             lng={x.long}
             status={x.status_value}
+            time_added={formatPastTime(x.time_added)}
             key={`hm${i}`}
           />
         ))}

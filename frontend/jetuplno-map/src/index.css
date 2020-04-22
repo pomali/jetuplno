@@ -2,6 +2,10 @@
 
 body {
   margin: 0;
+}
+body,
+html,
+button {
   font-family: "Roboto", "Oxygen", -apple-system, BlinkMacSystemFont, "Ubuntu",
     "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -32,4 +36,10 @@ button:focus {
   height: 100vh;
   width: 100%;
   height: calc(var(--vh, 1vh) * 100);
+}
+
+
+.ib {
+  vertical-align: middle;
+  display: inline-block;
 }

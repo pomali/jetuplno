@@ -67,13 +67,24 @@ class JetuplnoAPI(Resource):
         #         400,
         #     )
 
-        all_data = db.session.query(HeatmapInput.gps_text, HeatmapInput.status,)
+        all_data = db.session.query(
+            HeatmapInput.gps_text, HeatmapInput.status, HeatmapInput.time_added
+        )
 
         heatmap = []
         for point in all_data:
             gps = wkt_to_gps(point.gps_text)
+            if (point.time_added is not None):
+                t = str(point.time_added.isoformat())
+            else:
+                t = ""
             heatmap.append(
-                {"lat": gps[0], "long": gps[1], "status_value": point.status}
+                {
+                    "lat": gps[0],
+                    "long": gps[1],
+                    "status_value": point.status,
+                    "time_added": t,
+                }
             )
 
         out = {
@@ -114,12 +125,23 @@ class InterestingPoints(Resource):
     @staticmethod
     def get():
 
-        all_data = db.session.query(InterestingPoint.gps_text, InterestingPoint.name,  InterestingPoint.popularity)
+        all_data = db.session.query(
+            InterestingPoint.gps_text,
+            InterestingPoint.name,
+            InterestingPoint.popularity,
+        )
 
         pois = []
         for point in all_data:
             gps = wkt_to_gps(point.gps_text)
-            pois.append({"lat": gps[0], "long": gps[1], "name": point.name, "popularity": point.popularity })
+            pois.append(
+                {
+                    "lat": gps[0],
+                    "long": gps[1],
+                    "name": point.name,
+                    "popularity": point.popularity,
+                }
+            )
 
         out = {
             "status": "ok",

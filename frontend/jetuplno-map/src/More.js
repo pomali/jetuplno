@@ -5,6 +5,7 @@ import {
   cloudFullWhiteStyle,
   cloudFullPurpleStyle,
   popularityToColor,
+  colorWhite,
 } from "./colors";
 // import { Github, Twitter } from "@icons-pack/react-simple-icons";
 import Github from "@icons-pack/react-simple-icons/lib/Github";
@@ -35,14 +36,17 @@ const innerStyle = {
 };
 
 const btnStyle = {
-  width: "3em",
-  height: "3em",
-  borderRadius: "3em",
+  width: "2em",
+  height: "2em",
+  borderRadius: "2em",
   border: "1px solid",
+  color: colorPurple,
   borderColor: colorPurple,
+  background: colorWhite,
   fontWeight: "bolder",
+  fontSize: "1.1rem",
   position: "absolute",
-  fontStyle: "italic",
+  // fontStyle: "italic",
 };
 
 const variants = {
@@ -71,10 +75,12 @@ function Content({ isOpen }) {
       <div style={{ padding: "1em 2em" }}>
         <h1>jetuplno</h1>
         <p>
-          je aplikácia, ktorá zbiera dáta o zaplnení verejných priestorov od
-          používateľov, a informuje kde nie je príliš veľa ľudí pre bezpečnenjší
-          pohyb v časoch rozšíreného COVID-19.
+          Cieľom <b>jetuplno</b> je inforomvať používateľov o zaplnenosti
+          verejných priestorov, najmä v čase obmedzení v súvislosti s
+          koronavírusom COVID-19.
         </p>
+
+        <h2>Pomohol si: {getScore()}-krát</h2>
 
         <h2>Legenda</h2>
 
@@ -85,13 +91,13 @@ function Content({ isOpen }) {
                 <td>
                   <CloudFullImg style={cloudFullPurpleStyle} />{" "}
                 </td>
-                <td>Miesto kde je plno ľudí</td>
+                <td> je tu plno</td>
               </tr>
               <tr>
                 <td>
                   <CloudFullImg style={cloudFullWhiteStyle} />
                 </td>
-                <td> Miesto kde je málo ľudí</td>
+                <td> je tu prázdno</td>
               </tr>
               <tr>
                 <td>
@@ -106,7 +112,7 @@ function Content({ isOpen }) {
                     alt="current position"
                   />
                 </td>
-                <td> Tu sa nachádzaš</td>
+                <td> tu si</td>
               </tr>
             </tbody>
           </table>
@@ -121,7 +127,7 @@ function Content({ isOpen }) {
                     }}
                   />
                 </td>
-                <td>Veľmi známe miesto</td>
+                <td> veľmi známe miesto</td>
               </tr>
               <tr>
                 <td>
@@ -131,7 +137,7 @@ function Content({ isOpen }) {
                     }}
                   />
                 </td>
-                <td>Stredne známe miesto</td>
+                <td> stredne známe miesto</td>
               </tr>
               <tr>
                 <td>
@@ -141,13 +147,11 @@ function Content({ isOpen }) {
                     }}
                   />
                 </td>
-                <td>Menej známe miesto</td>
+                <td> menej známe miesto</td>
               </tr>
             </tbody>
           </table>
         </div>
-
-        <h2>Pomohol si: {getScore()}-krát</h2>
 
         <h2>O vzniku</h2>
         <p>
@@ -156,7 +160,7 @@ function Content({ isOpen }) {
           nám podarilo umiestniť v top 7 z 31 projektov.
         </p>
 
-        <p>Za spoluprácu ďakujeme aj mestu Bratislava,...</p>
+        <p>Za spoluprácu ďakujeme mestu Bratislava.</p>
 
         <h3>Autori</h3>
         <ul>
@@ -192,10 +196,10 @@ function Content({ isOpen }) {
         </p>
         <h2>Privacy policy</h2>
         <p>
-          Používame tvoju polohu keď stlačíš tlačidlo "Je tu plno" alebo "Je tu
-          prázdno". S polohu posielame bez identifikátoru a ukladáme spolu s
+          Používame tvoju polohu, keď stlačíš tlačidlo "Je tu plno" alebo "Je tu
+          prázdno". Polohu posielame bez identifikátoru a ukladáme spolu s
           časom (aby sme vedeli mazať staré polohy). Všetky polohy používame na
-          zobrazenie miest ktoré sú plné a ktoré sú prázdne.
+          zobrazenie miest, ktoré sú plné a ktoré sú prázdne.
         </p>
         <p>
           Používame cookies kvôli{" "}
@@ -239,7 +243,7 @@ export default function More(props) {
             setIsOpen((x) => !x);
           }}
         >
-          {isOpen ? "X" : "i"}
+          {isOpen ? "╳" : "i"}
         </motion.button>
         <Content isOpen={isOpen} />
       </div>
