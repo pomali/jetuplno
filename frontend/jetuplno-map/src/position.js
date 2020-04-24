@@ -28,6 +28,56 @@ export const usePosition = (getGpsPosition) => {
     }
   };
 
+  const onError = (error) => {
+    console.log(error);
+    let x = "";
+    switch (error.code) {
+      case error.PERMISSION_DENIED:
+        x = (
+          <>
+            <p>
+              Nedal si nám povolenie na prístup k tvojej polohe{" "}
+              <span role="img" aria-label="smutný emoji">
+                😞
+              </span>
+            </p>{" "}
+            <p>
+              Pokračujeme v obmedzenom režime{" "}
+              <span role="img" aria-label="silný emoji">
+                💪
+              </span>
+              , ale ak chceš odosielať situáciu na mieste kde sa nachádzaš,
+              povoľ nám prístup ku geolokácii{" "}
+              <span role="img" aria-label="múdry emoji">
+                🤓
+              </span>
+            </p>
+          </>
+        );
+        break;
+      case error.POSITION_UNAVAILABLE:
+        x = "Nastal problém so získavaním tvojej polohy 🕵️‍♀️";
+        break;
+      case error.TIMEOUT:
+        x =
+          "Nestihol si nám dať prístup ku polohe. Nabudúce budeš rýchlejší 😉";
+        break;
+      case error.UNKNOWN_ERROR:
+      default:
+        x = "An unknown error occurred. ⁉️";
+        break;
+    }
+    setPosition((pos) => ({
+      ...pos,
+      error: (
+        <>
+          {x} ({error.message})
+        </>
+      ),
+      errorCode: error.code,
+    }));
+  };
+
   // useEffect(() => {
   //   const id = setInterval(() => {
   //     setPosition((x) => ({
@@ -52,54 +102,9 @@ export const usePosition = (getGpsPosition) => {
     }
     let watcher = null;
     if (getGpsPosition) {
-      watcher = geo.watchPosition(onChange, (error) => {
-        console.log(error);
-        let x = "";
-        switch (error.code) {
-          case error.PERMISSION_DENIED:
-            x = (
-              <>
-                <p>
-                  Nedal si nám povolenie na prístup k tvojej polohe{" "}
-                  <span role="img" aria-label="smutný emoji">
-                    😞
-                  </span>
-                </p>{" "}
-                <p>
-                  Pokračujeme v obmedzenom režime{" "}
-                  <span role="img" aria-label="silný emoji">
-                    💪
-                  </span>
-                  , ale ak chceš odosielať situáciu na mieste kde sa nachádzaš,
-                  povoľ nám prístup ku geolokácii{" "}
-                  <span role="img" aria-label="múdry emoji">
-                    🤓
-                  </span>
-                </p>
-              </>
-            );
-            break;
-          case error.POSITION_UNAVAILABLE:
-            x = "Nastal problém so získavaním tvojej polohy 🕵️‍♀️";
-            break;
-          case error.TIMEOUT:
-            x =
-              "Nestihol si nám dať prístup ku polohe. Nabudúce budeš rýchlejší 😉";
-            break;
-          case error.UNKNOWN_ERROR:
-          default:
-            x = "An unknown error occurred. ⁉️";
-            break;
-        }
-        setPosition((pos) => ({
-          ...pos,
-          error: (
-            <>
-              {x} ({error.message})
-            </>
-          ),
-          errorCode: error.code,
-        }));
+      watcher = geo.watchPosition(onChange, onError, {
+        enableHighAccuracy: true, // 
+        maximumAge: 500, // 1s old position is ok
       });
     }
     return () => {

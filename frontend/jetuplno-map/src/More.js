@@ -28,8 +28,7 @@ const wrapperStyle = {
 };
 
 const innerStyle = {
-  background: "#fff",
-  // color: colorPurple,
+  background: colorWhite,
   margin: "1em",
   borderRadius: "1em",
   transition: "height 1s ease 1s",
@@ -42,11 +41,10 @@ const btnStyle = {
   border: "1px solid",
   color: colorPurple,
   borderColor: colorPurple,
-  background: colorWhite,
+  backgroundColor: colorWhite,
   fontWeight: "bolder",
   fontSize: "1.1rem",
   position: "absolute",
-  // fontStyle: "italic",
 };
 
 const variants = {
@@ -75,7 +73,7 @@ function Content({ isOpen }) {
       <div style={{ padding: "1em 2em" }}>
         <h1>jetuplno</h1>
         <p>
-          Cieľom <b>jetuplno</b> je inforomvať používateľov o zaplnenosti
+          Cieľom <b>jetuplno</b> je informovať používateľov o zaplnenosti
           verejných priestorov, najmä v čase obmedzení v súvislosti s
           koronavírusom COVID-19.
         </p>
