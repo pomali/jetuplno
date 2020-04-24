@@ -42,63 +42,70 @@ class InterestingPoint(db.Model):
         return functions.ST_AsText(self.position)
 
 
-def heatmap_query():
-    # SELECT ST_AsText(ST_Centroid(unnest(ST_ClusterWithin("position"::geometry, 0.001)))) as p,
-    # round( AVG(status)) as s,
-    # MAX((time_added)) as ta
-    # from heatmap_input hi
-    # where age(time_added) < '7 day'
-
-    # return db.session.query(
-    #         HeatmapInput,
-    #         functions.ST_AsText(
-    #             functions.ST_Centroid(
-    #                 F.unnest(
-    #                     F.ST_ClusterWithin(
-    #                         cast(HeatmapInput.position, Geometry), 0.001
-    #                         )
-    #                     )
-    #                 )
-    #             ),
-    #         F.round(F.AVG(HeatmapInput.status)),
-    #         F.MAX(HeatmapInput.time_added)
-    #     )
+def heatmap_query_all():
+    return db.session.query(
+        HeatmapInput.gps_text, HeatmapInput.status, HeatmapInput.time_added
+    )
 
 
-
+def heatmap_query_aggregate():
     return db.engine.execute(
-        """select
-            st_astext(ST_Centroid(unnest(ST_ClusterWithin("position"::geometry, 0.001)))) as p,
-            round( avg(status)) as s,
-            max(time_added) as ta
-        from
-            heatmap_input hi
-        where
-            age(time_added) < '28 day'
+        """with stat as (
+            select
+                id,
+                status,
+                "position",
+                time_added,
+                ST_ClusterDBSCAN("position"::geometry,
+                0.001,
+                1) over () as cluster_id
+            from
+                heatmap_input
+                where age(time_added) < '28 days'
+            )
+            select
+                st_astext(ST_CENTROID(ST_Collect("position"::geometry))) as "position",
+                avg(status) as status,
+                max(time_added) as time_added
+            from
+                stat
+            group by
+                cluster_id
+            order by
+                cluster_id
         """
     )
 
 
-
-
-# with stat as (
-# select
-# 	id,
-# 	status,
-# 	"position",
-# 	ST_ClusterDBSCAN("position"::geometry,
-# 	0.1,
-# 	1) over () as cluster_id
-# from
-# 	heatmap_input )
-# select
-# 	cluster_id,
-# 	ST_Collect("position"::geometry) as cluster_geom,
-# 	array_agg(id) AS ids_in_cluster,
-# 	avg(status)
-# from
-# 	stat
-# group by
-# 	cluster_id
-# order by
-# 	cluster_id
+def heatmap_query_aggregate_weighted():
+    return db.engine.execute(
+        """with stat as (
+        select
+            id,
+            status,
+            "position",
+            time_added,
+            extract(epoch from age(time_added)) as t,
+            greatest(0, 1 - extract(epoch from age(time_added))/(3600*24*{days_threshold})) as time_weight,
+            status * greatest(0, 1 - extract(epoch from age(time_added))/(3600*24*{days_threshold})) as weighted_status,
+            ST_ClusterDBSCAN("position"::geometry,
+            {cluster_eps},
+            1) over () as cluster_id
+        from
+            heatmap_input
+            where age(time_added) < '{days_threshold} days'
+        )
+        select
+            st_astext(ST_CENTROID(ST_Collect("position"::geometry))) as "position",
+            round(sum(weighted_status)/sum(time_weight)) as status,
+            max(time_added) as time_added
+        from
+            stat
+        group by
+            cluster_id
+        order by
+            cluster_id
+            """.format(
+            days_threshold=280, cluster_eps=0.001
+        )
+    )
