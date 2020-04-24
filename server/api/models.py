@@ -1,9 +1,8 @@
 import datetime
 from database import db
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy import cast
-
-from geoalchemy2 import Geography, functions
+from sqlalchemy import cast, func as F
+from geoalchemy2 import Geography, functions, Geometry
 
 
 class HeatmapInput(db.Model):
@@ -41,3 +40,65 @@ class InterestingPoint(db.Model):
     @hybrid_property
     def gps_text(self):
         return functions.ST_AsText(self.position)
+
+
+def heatmap_query():
+    # SELECT ST_AsText(ST_Centroid(unnest(ST_ClusterWithin("position"::geometry, 0.001)))) as p,
+    # round( AVG(status)) as s,
+    # MAX((time_added)) as ta
+    # from heatmap_input hi
+    # where age(time_added) < '7 day'
+
+    # return db.session.query(
+    #         HeatmapInput,
+    #         functions.ST_AsText(
+    #             functions.ST_Centroid(
+    #                 F.unnest(
+    #                     F.ST_ClusterWithin(
+    #                         cast(HeatmapInput.position, Geometry), 0.001
+    #                         )
+    #                     )
+    #                 )
+    #             ),
+    #         F.round(F.AVG(HeatmapInput.status)),
+    #         F.MAX(HeatmapInput.time_added)
+    #     )
+
+
+
+    return db.engine.execute(
+        """select
+            st_astext(ST_Centroid(unnest(ST_ClusterWithin("position"::geometry, 0.001)))) as p,
+            round( avg(status)) as s,
+            max(time_added) as ta
+        from
+            heatmap_input hi
+        where
+            age(time_added) < '28 day'
+        """
+    )
+
+
+
+
+# with stat as (
+# select
+# 	id,
+# 	status,
+# 	"position",
+# 	ST_ClusterDBSCAN("position"::geometry,
+# 	0.1,
+# 	1) over () as cluster_id
+# from
+# 	heatmap_input )
+# select
+# 	cluster_id,
+# 	ST_Collect("position"::geometry) as cluster_geom,
+# 	array_agg(id) AS ids_in_cluster,
+# 	avg(status)
+# from
+# 	stat
+# group by
+# 	cluster_id
+# order by
+# 	cluster_id

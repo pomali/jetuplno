@@ -2,7 +2,8 @@ import re
 from flask import Blueprint, request
 from flask_restful import Api, Resource
 from database import db
-from api.models import HeatmapInput, InterestingPoint
+from api.models import HeatmapInput, InterestingPoint, heatmap_query
+import datetime
 import random
 
 
@@ -67,22 +68,31 @@ class JetuplnoAPI(Resource):
         #         400,
         #     )
 
-        all_data = db.session.query(
-            HeatmapInput.gps_text, HeatmapInput.status, HeatmapInput.time_added
-        )
+        # all_data = db.session.query(
+        #     HeatmapInput.gps_text, HeatmapInput.status, HeatmapInput.time_added
+        # )
 
+        all_data = heatmap_query()
+
+
+        print("aaa")
+        print(all_data)
         heatmap = []
         for point in all_data:
-            gps = wkt_to_gps(point.gps_text)
-            if (point.time_added is not None):
-                t = str(point.time_added.isoformat())
+            print(point)
+            print("xxx")
+            [gps_text, status, time_added] = point
+            print(time_added)
+            gps = wkt_to_gps(gps_text)
+            if (time_added is not None):
+                t = str(time_added.isoformat())
             else:
                 t = ""
             heatmap.append(
                 {
                     "lat": gps[0],
                     "long": gps[1],
-                    "status_value": point.status,
+                    "status_value": status,
                     "time_added": t,
                 }
             )
