@@ -1,8 +1,8 @@
 {
   "name": "jetuplno-map",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
-  "homepage": "https://jetuplno.appspot.com/",
+  "homepage": "https://jetuplno.sk/",
   "dependencies": {
     "@icons-pack/react-simple-icons": "^2.6.0",
     "@testing-library/jest-dom": "^4.2.4",

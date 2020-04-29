@@ -13,10 +13,32 @@ import Twitter from "@icons-pack/react-simple-icons/lib/Twitter";
 
 import { ReactComponent as CloudFullImg } from "./img/img1.svg";
 import { ReactComponent as HeartImg } from "./img/img_heart.svg";
+import { ReactComponent as ShareImgOrig } from "./img/share-24px.svg";
+import { ReactComponent as CloseImg } from "./img/highlight_off-24px_2.svg";
+import { ReactComponent as InfoImg } from "./img/info-24px_2.svg";
 import currentPositionIcon from "./img/map_pin_whole.png";
 
 import "./More.css";
 import { getScore } from "./score";
+import Button from "./components/Button";
+
+const materialIconStyle = {
+  width: "2em",
+  height: "2em",
+  fill: colorPurple,
+};
+
+const ShareImg = () => (
+  <ShareImgOrig
+    style={{
+      width: "2em",
+      marginRight: "5px",
+      backgroundColor: colorPurple,
+      fill: colorWhite,
+    }}
+    className="ib"
+  />
+);
 
 const wrapperStyle = {
   position: "fixed",
@@ -29,22 +51,26 @@ const wrapperStyle = {
 
 const innerStyle = {
   background: colorWhite,
+  height: "calc(100% - 2em)",
   margin: "1em",
   borderRadius: "1em",
   transition: "height 1s ease 1s",
 };
 
 const btnStyle = {
-  width: "2em",
-  height: "2em",
-  borderRadius: "2em",
-  border: "1px solid",
-  color: colorPurple,
-  borderColor: colorPurple,
-  backgroundColor: colorWhite,
+  // width: "2em",
+  // height: "2em",
+  // borderRadius: "2em",
+  // border: "1px solid",
+  // color: colorPurple,
+  // borderColor: colorPurple,
+  // backgroundColor: colorWhite,
   fontWeight: "bolder",
   fontSize: "1.1rem",
   position: "absolute",
+
+  border: "none",
+  background: "none",
 };
 
 const variants = {
@@ -62,6 +88,10 @@ const variants = {
   },
 };
 
+const shareMailto = `mailto:?body=${encodeURIComponent(
+  "Vyskúšaj https://jetuplno.sk/ ! \n Pozri sa kde je plno, a choď na výlet."
+)}&subject=jetuplno`;
+
 function Content({ isOpen }) {
   return (
     <motion.div
@@ -77,6 +107,60 @@ function Content({ isOpen }) {
           verejných priestorov, najmä v čase obmedzení v súvislosti s
           koronavírusom COVID-19.
         </p>
+
+        {navigator.share ? (
+          <Button
+            style={{
+              background: colorPurple,
+              color: colorWhite,
+              fill: colorWhite,
+            }}
+            onClick={() => {
+              if (navigator.share) {
+                navigator
+                  .share({
+                    title: "jetuplno",
+                    text: "Vyskúšaj jetuplno!",
+                    url: "https://jetuplno.sk/",
+                  })
+                  .then(() => console.log("Successful share"))
+                  .catch((error) => console.log("Error sharing", error));
+              } else {
+                console.log("no navigator.share");
+              }
+            }}
+          >
+            <ShareImg /> Zdieľaj
+          </Button>
+        ) : (
+          <a
+            href={shareMailto}
+            target="_blank"
+            rel="noreferrer noopener"
+            style={{
+              border: 0,
+              borderRadius: "3em",
+              margin: "0.5em 0.25rem",
+              fontSize: "1rem",
+              fontWeight: 500,
+              background: colorPurple,
+              color: colorWhite,
+              fill: colorWhite,
+              textDecoration: "none",
+              display: "inline-block",
+              textAlign: "center",
+            }}
+          >
+            <div
+              style={{
+                margin: "0.5em 2em",
+                display: "inline-block",
+              }}
+            >
+              <ShareImg /> Zdieľaj
+            </div>
+          </a>
+        )}
 
         <h2>Pomohol si: {getScore()}-krát</h2>
 
@@ -192,11 +276,21 @@ function Content({ isOpen }) {
             <Github color="black" fill="black" size={20} />
           </a>
         </p>
+        <p>
+          Kontakt:{" "}
+          <a
+            target="_blank"
+            rel="noreferrer noopener"
+            href="mailto:jetuplno.info@gmail.com"
+          >
+            jetuplno.info@gmail.com
+          </a>
+        </p>
         <h2>Privacy policy</h2>
         <p>
           Používame tvoju polohu, keď stlačíš tlačidlo "Je tu plno" alebo "Je tu
-          prázdno". Polohu posielame bez identifikátoru a ukladáme spolu s
-          časom (aby sme vedeli mazať staré polohy). Všetky polohy používame na
+          prázdno". Polohu posielame bez identifikátoru a ukladáme spolu s časom
+          (aby sme vedeli mazať staré polohy). Všetky polohy používame na
           zobrazenie miest, ktoré sú plné a ktoré sú prázdne.
         </p>
         <p>
@@ -241,7 +335,11 @@ export default function More(props) {
             setIsOpen((x) => !x);
           }}
         >
-          {isOpen ? "╳" : "i"}
+          {isOpen ? (
+            <CloseImg style={materialIconStyle} className="ib" />
+          ) : (
+            <InfoImg style={materialIconStyle} className="ib" />
+          )}
         </motion.button>
         <Content isOpen={isOpen} />
       </div>

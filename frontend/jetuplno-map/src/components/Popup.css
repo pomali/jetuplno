@@ -3,6 +3,9 @@
 
   width: 100%;
   height: 100%;
+  height: -webkit-fill-available;
+  height: fill-available;
+  height: stretch;
   background: rgba(240, 240, 240, 0.7);
 
   left: 0px;
