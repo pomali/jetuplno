@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useCallback,
+} from "react";
 import GoogleMapReact from "google-map-react";
 import { usePosition } from "./position";
 
@@ -75,7 +81,19 @@ function formatPastTime(strTime) {
     ,
     { value: minute },
   ] = f;
-  return <div><div>{day}.{month}.</div><div> <b>{hour}:{minute}</b></div></div>
+  return (
+    <div>
+      <div>
+        {day}.{month}.
+      </div>
+      <div>
+        {" "}
+        <b>
+          {hour}:{minute}
+        </b>
+      </div>
+    </div>
+  );
 }
 
 const comparePrecision = 0.001;
@@ -209,9 +227,9 @@ function GMap() {
     mapRef.current = map;
   }
 
-  function recenter() {
+  const recenter = useCallback(() => {
     mapRef.current.panTo({ lat: position.latitude, lng: position.longitude });
-  }
+  }, [position, mapRef]);
 
   useEffect(() => {
     if (position.error) {
@@ -232,6 +250,12 @@ function GMap() {
       });
     }
   }, []);
+
+  useEffect(() => {
+    if (getGpsPosition && !isMapMoved && mapRef.current) {
+      recenter();
+    }
+  }, [getGpsPosition, isMapMoved, recenter]);
 
   return (
     <div className="google-map-container">
