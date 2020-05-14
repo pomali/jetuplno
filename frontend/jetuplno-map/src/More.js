@@ -7,9 +7,9 @@ import {
   popularityToColor,
   colorWhite,
 } from "./colors";
-// import { Github, Twitter } from "@icons-pack/react-simple-icons";
-import Github from "@icons-pack/react-simple-icons/lib/Github";
-import Twitter from "@icons-pack/react-simple-icons/lib/Twitter";
+import { Github, Twitter } from "@icons-pack/react-simple-icons";
+// import Github from "@icons-pack/react-simple-icons/lib/Github";
+// import Twitter from "@icons-pack/react-simple-icons/lib/Twitter";
 
 import { ReactComponent as CloudFullImg } from "./img/img1.svg";
 import { ReactComponent as HeartImg } from "./img/img_heart.svg";
