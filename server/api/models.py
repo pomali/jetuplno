@@ -106,6 +106,6 @@ def heatmap_query_aggregate_weighted():
         order by
             cluster_id
             """.format(
-            days_threshold=280, cluster_eps=0.001
+            days_threshold=28, cluster_eps=0.001
         )
     )
